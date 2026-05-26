@@ -20,95 +20,83 @@ const AUTHORS = [
 ];
 
 /* ================================================================
-   TNT GİRİŞ ANİMASYONU
-   — Otomatik başlar, ~3.2sn sonra biter
-   — Skip butonu ile atlanabilir
+   GİRİŞ EKRANI
+   Typewriter efektiyle mesaj yazar, progress bar dolar, sonra kaybolur.
 ================================================================ */
-function initTNTIntro() {
-    const intro  = document.getElementById('tnt-intro');
-    const skipBtn = document.getElementById('tnt-skip');
+function initIntro() {
+    const intro   = document.getElementById('intro');
     if (!intro) return;
 
-    const FALL_DURATION    = 1400; // ms — TNT düşüş süresi
-    const EXPLODE_DELAY    = 200;  // ms — düştükten sonra patlama gecikmesi
-    const OUTRO_DELAY      = 800;  // ms — patlama sonrası overlay kalkma süresi
-    const TOTAL            = FALL_DURATION + EXPLODE_DELAY + OUTRO_DELAY;
+    const msgEl   = document.getElementById('intro-msg');
+    const fillEl  = document.getElementById('intro-fill');
+    const pctEl   = document.getElementById('intro-pct');
 
-    function triggerExplosion() {
-        const box        = document.querySelector('.tnt-box');
-        const fuse       = document.querySelector('.tnt-fuse');
-        const explosion  = document.querySelector('.tnt-explosion');
-        const particles  = document.querySelector('.exp-particles');
+    /* ── Typewriter ── */
+    const MESSAGES = [
+        'Bir macera yükleniyor...',
+        'Dünya oluşturuluyor...',
+        'Nefesini tut, neredeyse hazır.'
+    ];
+    let msgIndex = 0, charIndex = 0, typing = true;
 
-        // TNT'yi gizle
-        if (box)  { box.style.opacity  = '0'; box.style.transition  = 'none'; }
-        if (fuse) { fuse.style.opacity = '0'; fuse.style.transition = 'none'; }
+    function typeStep() {
+        if (!typing) return;
+        const current = MESSAGES[msgIndex];
+        if (charIndex <= current.length) {
+            msgEl.textContent = current.slice(0, charIndex);
+            charIndex++;
+            setTimeout(typeStep, 42 + Math.random() * 28);
+        } else if (msgIndex < MESSAGES.length - 1) {
+            // Kısa bekleme, sonraki mesaja geç
+            setTimeout(() => {
+                charIndex = 0;
+                msgIndex++;
+                setTimeout(typeStep, 60);
+            }, 700);
+        }
+    }
+    setTimeout(typeStep, 400);
 
-        // Flash
-        const flash = document.createElement('div');
-        flash.className = 'exp-flash';
-        document.body.appendChild(flash);
-        setTimeout(() => flash.remove(), 700);
+    /* ── Progress bar ── */
+    const TOTAL_MS   = 3200;   // toplam yüklenme süresi (ms)
+    const TICK_MS    = 40;     // güncelleme sıklığı
+    const STEPS      = TOTAL_MS / TICK_MS;
+    let   step       = 0;
+    let   pct        = 0;
 
-        // Screen shake
-        document.body.classList.add('shaking');
-        setTimeout(() => document.body.classList.remove('shaking'), 600);
+    fillEl.classList.add('started');
 
-        // Explosion rings
-        if (explosion) explosion.classList.add('boom');
+    const barTimer = setInterval(() => {
+        step++;
+        // Easing: başta hızlı, sonda biraz yavaşlar — gerçekçi his
+        const ease = step / STEPS;
+        const target = Math.min(100, Math.round(
+            ease < 0.7
+                ? ease * 130         // hızlı bölüm
+                : 91 + (ease - 0.7) / 0.3 * 9  // son %91→100 yavaş
+        ));
 
-        // Generate particles
-        if (particles) {
-            const colors = ['#ff4400','#ff8800','#ffcc00','#fff','#cc0000','#ff6600'];
-            const count  = 28;
-            for (let i = 0; i < count; i++) {
-                const p    = document.createElement('div');
-                p.className = 'exp-particle';
-                const angle = (i / count) * Math.PI * 2;
-                const speed = 120 + Math.random() * 220;
-                const dx    = Math.cos(angle) * speed;
-                const dy    = Math.sin(angle) * speed;
-                const rot   = Math.random() * 720 - 360;
-                const size  = 5 + Math.random() * 10;
-                p.style.cssText = `
-                    width:${size}px; height:${size}px;
-                    background:${colors[Math.floor(Math.random() * colors.length)]};
-                    border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
-                    animation: particle-${i} 0.8s ease-out forwards;
-                `;
-                // Inject per-particle keyframe
-                const styleTag = document.createElement('style');
-                styleTag.textContent = `
-                    @keyframes particle-${i} {
-                        0%   { opacity:1; transform:translate(0,0) rotate(0deg); }
-                        100% { opacity:0; transform:translate(${dx}px,${dy}px) rotate(${rot}deg); }
-                    }
-                `;
-                document.head.appendChild(styleTag);
-                particles.appendChild(p);
-            }
+        if (target > pct) {
+            pct = target;
+            fillEl.style.width = pct + '%';
+            pctEl.textContent  = pct + '%';
         }
 
-        // Fade out overlay after explosion
-        setTimeout(endIntro, OUTRO_DELAY);
-    }
+        if (pct >= 100) {
+            clearInterval(barTimer);
+            typing = false;
+            msgEl.textContent = 'Hazır. İyi oyunlar!';
+            setTimeout(endIntro, 520);
+        }
+    }, TICK_MS);
 
     function endIntro() {
-        const intro = document.getElementById('tnt-intro');
-        if (!intro) return;
         intro.classList.add('fade-out');
         setTimeout(() => {
             intro.classList.add('hidden');
-            // Trigger scroll-reveal on visible elements
             revealAll();
-        }, 650);
+        }, 720);
     }
-
-    // Kick off explosion after TNT lands
-    setTimeout(triggerExplosion, FALL_DURATION + EXPLODE_DELAY);
-
-    // Skip button
-    skipBtn && skipBtn.addEventListener('click', endIntro);
 }
 
 /* ── Author kartları ── */
@@ -176,7 +164,7 @@ function revealAll() {
 
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded', () => {
-    initTNTIntro();
+    initIntro();
     renderAuthors();
     revealAll();
     resetTimer();
