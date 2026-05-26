@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ✏️ SİTE BAŞLIĞI -->
+    <title>Lambda SMP Network</title>
+    <meta name="description" content="Lambda SMP — Minecraft'ın en iyi Survival Multiplayer sunucusu. play.lambdasmp.net">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;600;700;800&family=Nunito:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================================================================
+     TNT GİRİŞ ANİMASYONU
+     — Otomatik oynar, site hazır olunca kaybolur
+     — Değiştirmek istemiyorsan bu bloğu tamamen sil
+================================================================ -->
+<div id="tnt-intro">
+    <div class="tnt-scene">
+        <div class="tnt-box">
+            <div class="tnt-face front"></div>
+            <div class="tnt-face back"></div>
+            <div class="tnt-face left"></div>
+            <div class="tnt-face right"></div>
+            <div class="tnt-face top"></div>
+            <div class="tnt-face bottom"></div>
+        </div>
+        <div class="tnt-fuse"></div>
+        <div class="tnt-explosion">
+            <div class="exp-ring exp-ring-1"></div>
+            <div class="exp-ring exp-ring-2"></div>
+            <div class="exp-ring exp-ring-3"></div>
+            <div class="exp-particles"></div>
+        </div>
+    </div>
+    <button id="tnt-skip">ATLA</button>
+</div>
+<!-- /TNT GİRİŞ ANİMASYONU -->
+
+<!-- BG -->
+<div class="bg-grid"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mMen">
+    <button class="mob-close" onclick="mClose()">✕</button>
+    <!-- ✏️ MOBİL MENÜ LİNKLERİ -->
+    <a href="#about"    onclick="mClose()">Sunucu</a>
+    <a href="#gallery"  onclick="mClose()">Galeri</a>
+    <a href="#versions" onclick="mClose()">Sürümler</a>
+    <a href="#authors"  onclick="mClose()">Yapımcılar</a>
+    <a href="#" style="color:var(--green)" onclick="copyIP();mClose();return false;">IP Kopyala ⇢</a>
+</div>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <!-- ✏️ NAV LOGO — İsim değiştirmek istersen buraya -->
+        <div class="nav-logo">
+            <span class="g">Lambda</span><span> SMP Network</span>
+        </div>
+        <ul class="nav-links">
+            <!-- ✏️ NAV LİNKLERİ — Ekle / çıkar -->
+            <li><a href="#about">Sunucu</a></li>
+            <li><a href="#gallery">Galeri</a></li>
+            <li><a href="#versions">Sürümler</a></li>
+            <li><a href="#authors">Yapımcılar</a></li>
+            <li class="nav-cta"><a href="#" onclick="copyIP();return false;">IP Kopyala</a></li>
+        </ul>
+        <div class="hamburger" onclick="mOpen()">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <!-- ✏️ HERO BADGE — "Sunucu Aktif" yazısı -->
+        <div class="hero-badge">
+            <span class="pls"></span> Sunucu Aktif &mdash; 24/7
+        </div>
+        <!-- ✏️ HERO BAŞLIK — Sunucu adı -->
+        <h1 class="hero-title">
+            <span class="lambda">Lambda</span><span class="smp"> SMP</span>
+            <span class="net">N E T W O R K</span>
+        </h1>
+        <!-- ✏️ HERO ALT YAZI -->
+        <p class="hero-sub">
+            Arkadaşlarınla birlikte efsanevi bir Minecraft deneyimi yaşa.<br>
+            Hayatta kal, inşa et, ittifaklar kur — gerçek bir SMP dünyası seni bekliyor.
+        </p>
+        <!-- ✏️ SUNUCU IP'Sİ — "play.lambdasmp.net" kısmını değiştir -->
+        <div class="ip-box" onclick="copyIP()">
+            <div>
+                <div class="ip-lbl">Sunucu IP</div>
+                <div class="ip-addr">play.lambdasmp.net</div>
+            </div>
+            <button class="ip-btn" id="cpyBtn">Kopyala</button>
+        </div>
+        <div class="hero-btns">
+            <!-- ✏️ HERO BUTONLARI — href ve metinleri değiştirebilirsin -->
+            <a href="#about" class="btn-p">Keşfet</a>
+            <a href="#versions" class="btn-s">Sürümler &amp; Launcherlar</a>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stats-grid">
+        <!-- ✏️ İSTATİSTİK KARTLARI — stat-v = büyük değer, stat-l = etiket -->
+        <div class="stat-card rv">
+            <span class="stat-v">1.8 – 1.21</span>
+            <span class="stat-l">Desteklenen Sürümler</span>
+        </div>
+        <div class="stat-card rv">
+            <span class="stat-v">24/7</span>
+            <span class="stat-l">Kesintisiz Erişim</span>
+        </div>
+        <div class="stat-card rv">
+            <span class="stat-v">✔</span>
+            <span class="stat-l">Cracked Desteği</span>
+        </div>
+        <div class="stat-card rv">
+            <span class="stat-v">0</span>
+            <span class="stat-l">Pay-to-Win</span>
+        </div>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <!-- ✏️ ABOUT BÖLÜM BAŞLIĞI -->
+            <div class="sec-tag">▸ Lambda SMP Nedir?</div>
+            <h2 class="sec-title">Gerçek bir <span>SMP</span> deneyimi</h2>
+            <p class="sec-desc">Lambda SMP, Minecraft'ın vanilla ruhunu koruyarak topluluğu ve rekabeti tek bir dünyada buluşturan bir Survival Multiplayer sunucusudur.</p>
+        </div>
+        <div class="info-grid">
+            <!-- ✏️ ÖZELLİK KARTLARI — info-icon, info-t (başlık), info-d (açıklama) -->
+            <div class="info-card rv">
+                <span class="info-icon">⚔️</span>
+                <div class="info-t">Gerçek Survival</div>
+                <p class="info-d">Hilesiz, saf bir survival deneyimi. Hayatta kal, inşa et, ittifaklar kur. Her an tehlike kapıda olabilir.</p>
+            </div>
+            <div class="info-card rv">
+                <span class="info-icon">🌍</span>
+                <div class="info-t">Geniş Dünya</div>
+                <p class="info-d">Keşfedilmeyi bekleyen uçsuz bucaksız bir harita. Kendi topraklarını oluştur, şehrini yönet, imparatorluk kur.</p>
+            </div>
+            <div class="info-card rv">
+                <span class="info-icon">👥</span>
+                <div class="info-t">Aktif Topluluk</div>
+                <p class="info-d">Canlı bir oyuncu kitlesi. Ticaret yap, savaş, ittifaklar kur — her gün yeni bir hikaye yazılıyor.</p>
+            </div>
+            <div class="info-card rv">
+                <span class="info-icon">🛡️</span>
+                <div class="info-t">Anti-Cheat</div>
+                <p class="info-d">Güçlü anti-cheat sistemimiz sayesinde adil ve temiz bir oyun deneyimi her zaman garanti altında.</p>
+            </div>
+            <div class="info-card rv">
+                <span class="info-icon">⚡</span>
+                <div class="info-t">Düşük Gecikme</div>
+                <p class="info-d">Optimize edilmiş altyapımız ile lag olmadan, akıcı ve kesintisiz bir oyun deneyimi yaşa.</p>
+            </div>
+            <div class="info-card rv">
+                <span class="info-icon">🏆</span>
+                <div class="info-t">Etkinlikler</div>
+                <p class="info-d">Düzenli etkinlikler, turnuvalar ve özel sezonlarla her zaman taze içerik ve heyecan seni bekliyor.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div class="sec-tag">▸ Sunucu Görüntüleri</div>
+            <h2 class="sec-title"><span>Galeri</span></h2>
+            <p class="sec-desc">Lambda SMP dünyasından kareler. Fotoğraf eklemek için her slide içindeki yorum satırını takip et.</p>
+        </div>
+        <div class="ss-wrap rv">
+            <div class="ss-track" id="ssTrack">
+
+                <!-- ✏️ SLIDE 1 — Fotoğraf eklemek için: yorum satırını kaldır ve src="URL" yaz -->
+                <div class="slide s1">
+                    <!-- <img src="foto1.jpg" alt="Lambda SMP - Görsel 1"> -->
+                    <div class="slide-ph">
+                        <span class="ico">🌲</span>
+                        <span class="lbl">Fotoğraf 1 — src ekle</span>
+                    </div>
+                </div>
+
+                <!-- ✏️ SLIDE 2 -->
+                <div class="slide s2">
+                    <!-- <img src="foto2.jpg" alt="Lambda SMP - Görsel 2"> -->
+                    <div class="slide-ph">
+                        <span class="ico">🏰</span>
+                        <span class="lbl">Fotoğraf 2 — src ekle</span>
+                    </div>
+                </div>
+
+                <!-- ✏️ SLIDE 3 -->
+                <div class="slide s3">
+                    <!-- <img src="foto3.jpg" alt="Lambda SMP - Görsel 3"> -->
+                    <div class="slide-ph">
+                        <span class="ico">⛏️</span>
+                        <span class="lbl">Fotoğraf 3 — src ekle</span>
+                    </div>
+                </div>
+
+                <!-- ✏️ SLIDE 4 -->
+                <div class="slide s4">
+                    <!-- <img src="foto4.jpg" alt="Lambda SMP - Görsel 4"> -->
+                    <div class="slide-ph">
+                        <span class="ico">🌅</span>
+                        <span class="lbl">Fotoğraf 4 — src ekle</span>
+                    </div>
+                </div>
+
+                <!-- ✏️ SLIDE 5 -->
+                <div class="slide s5">
+                    <!-- <img src="foto5.jpg" alt="Lambda SMP - Görsel 5"> -->
+                    <div class="slide-ph">
+                        <span class="ico">🗺️</span>
+                        <span class="lbl">Fotoğraf 5 — src ekle</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="ss-btn prev" onclick="chSlide(-1)">&#8249;</button>
+            <button class="ss-btn next" onclick="chSlide(1)">&#8250;</button>
+
+            <div class="ss-dots">
+                <div class="dot on" onclick="goSlide(0)"></div>
+                <div class="dot"    onclick="goSlide(1)"></div>
+                <div class="dot"    onclick="goSlide(2)"></div>
+                <div class="dot"    onclick="goSlide(3)"></div>
+                <div class="dot"    onclick="goSlide(4)"></div>
+            </div>
+            <div class="ss-overlay"></div>
+        </div>
+    </div>
+</section>
+
+<!-- VERSIONS -->
+<section id="versions">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div class="sec-tag">▸ Uyumluluk</div>
+            <h2 class="sec-title">Sürümler &amp; <span>Launcherlar</span></h2>
+            <p class="sec-desc">Lambda SMP, geniş bir sürüm yelpazesini ve orijinal ile cracked launcherları tam olarak destekler.</p>
+        </div>
+
+        <!-- ✏️ SÜRÜM ETİKETLERİ — ver-tag ekle/çıkar -->
+        <div class="ver-grid rv">
+            <div class="ver-tag"><span class="ver-dot"></span>Java 1.8</div>
+            <div class="ver-tag"><span class="ver-dot"></span>Java 1.12.2</div>
+            <div class="ver-tag"><span class="ver-dot"></span>Java 1.16.5</div>
+            <div class="ver-tag"><span class="ver-dot"></span>Java 1.17.1</div>
+            <div class="ver-tag"><span class="ver-dot"></span>Java 1.18.2</div>
+            <div class="ver-tag"><span class="ver-dot"></span>Java 1.19.4</div>
+            <div class="ver-tag"><span class="ver-dot"></span>Java 1.20.4</div>
+            <div class="ver-tag"><span class="ver-dot"></span>Java 1.21.x</div>
+        </div>
+
+        <span class="sub-tag">Desteklenen Launcherlar</span>
+        <!-- ✏️ LAUNCHER KARTLARI — lnc-ico (emoji), lnc-name, lnc-type -->
+        <div class="lnc-grid rv">
+            <div class="lnc-card">
+                <div class="lnc-ico">🎮</div>
+                <div>
+                    <div class="lnc-name">Minecraft Launcher</div>
+                    <div class="lnc-type">Orijinal — Microsoft</div>
+                </div>
+            </div>
+            <div class="lnc-card">
+                <div class="lnc-ico">⚡</div>
+                <div>
+                    <div class="lnc-name">TLauncher</div>
+                    <div class="lnc-type">Cracked — Ücretsiz</div>
+                </div>
+            </div>
+            <div class="lnc-card">
+                <div class="lnc-ico">🚀</div>
+                <div>
+                    <div class="lnc-name">SKlauncher</div>
+                    <div class="lnc-type">Cracked — Ücretsiz</div>
+                </div>
+            </div>
+            <div class="lnc-card">
+                <div class="lnc-ico">🌟</div>
+                <div>
+                    <div class="lnc-name">Salwyrr Client</div>
+                    <div class="lnc-type">Cracked — Optimized</div>
+                </div>
+            </div>
+            <div class="lnc-card">
+                <div class="lnc-ico">🔧</div>
+                <div>
+                    <div class="lnc-name">Prism / PolyMC</div>
+                    <div class="lnc-type">Orijinal — Açık Kaynak</div>
+                </div>
+            </div>
+            <div class="lnc-card">
+                <div class="lnc-ico">🏎️</div>
+                <div>
+                    <div class="lnc-name">Lunar Client</div>
+                    <div class="lnc-type">Orijinal — Performans</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ✏️ CRACKED AÇIKLAMA KUTUSU -->
+        <div class="crack-box rv">
+            <div class="crack-ico">✅</div>
+            <div>
+                <h4>Cracked Oyuncular da Katılabilir!</h4>
+                <p>
+                    Lambda SMP, orijinal Minecraft hesabı olmayan oyuncuları da kucaklar.
+                    TLauncher, SKlauncher veya benzeri ücretsiz bir launcher ile sunucumuza bağlanabilirsin.
+                    Launcher'ında çok oyunculu (multiplayer) kısmına git,
+                    <strong>play.lambdasmp.net</strong> adresini ekle ve oynamaya hemen başla.
+                    Herhangi bir sorunla karşılaşırsan Discord sunucumuzdan destek alabilirsin.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AUTHORS -->
+<section id="authors">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div class="sec-tag">▸ Ekip</div>
+            <h2 class="sec-title">Lambda SMP <span>Yapımcıları</span></h2>
+            <!-- ✏️ AUTHORS AÇIKLAMASI — main.js içindeki AUTHORS dizisini düzenle -->
+            <p class="sec-desc">Bu sunucuyu hayata geçiren ekip. Kişi eklemek / çıkarmak için <strong>main.js</strong> dosyasındaki <code>AUTHORS</code> dizisini düzenle.</p>
+        </div>
+        <div class="authors-grid" id="authGrid"></div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="foot-inner">
+        <!-- ✏️ FOOTER LOGO -->
+        <div class="foot-logo"><span class="g">Lambda</span> SMP Network</div>
+        <!-- ✏️ FOOTER AÇIKLAMASI -->
+        <p class="foot-desc">Minecraft'ın en iyi Survival Multiplayer deneyimi.<br>Herkese açık — rekabetçi — efsanevi.</p>
+        <div class="foot-div"></div>
+        <div class="foot-bot">
+            <!-- ✏️ COPYRIGHT YILI -->
+            <div class="foot-copy">© 2025 <span>Lambda SMP Network</span>. Tüm hakları saklıdır.</div>
+            <!-- ✏️ FOOTER LİNKLERİ — href değerlerini doldur -->
+            <div class="foot-lnks">
+                <a href="#">Discord</a>
+                <a href="#">Kurallar</a>
+                <a href="#">İletişim</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Main Script -->
+<script src="main.js"></script>
+</body>
+</html>
