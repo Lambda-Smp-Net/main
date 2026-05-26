@@ -19,31 +19,45 @@
 <body>
 
 <!-- ================================================================
-     TNT GİRİŞ ANİMASYONU
-     — Otomatik oynar, site hazır olunca kaybolur
-     — Değiştirmek istemiyorsan bu bloğu tamamen sil
+     GİRİŞ EKRANI
+     ✏️  BURAYA kendi fotoğrafının URL'sini yaz:
+         background-image: url('https://...') kısmını değiştir
+         — 16:9 fotoğraf önerilir (örn: 1920×1080)
+         — Hem PC hem mobil için otomatik uyumludur
 ================================================================ -->
-<div id="tnt-intro">
-    <div class="tnt-scene">
-        <div class="tnt-box">
-            <div class="tnt-face front"></div>
-            <div class="tnt-face back"></div>
-            <div class="tnt-face left"></div>
-            <div class="tnt-face right"></div>
-            <div class="tnt-face top"></div>
-            <div class="tnt-face bottom"></div>
+<div id="intro" style="background-image: url('BURAYA_FOTO_URL_YAZ');">
+
+    <!-- Sol alt HUD: diyalog + progress bar -->
+    <div class="intro-hud">
+
+        <!-- Diyalog kutusu -->
+        <div class="intro-dialog">
+            <div class="intro-dialog-icon">⚔️</div>
+            <div class="intro-dialog-text">
+                <div class="intro-dialog-title">Lambda SMP</div>
+                <div class="intro-dialog-msg" id="intro-msg"><span class="intro-cursor"></span></div>
+            </div>
         </div>
-        <div class="tnt-fuse"></div>
-        <div class="tnt-explosion">
-            <div class="exp-ring exp-ring-1"></div>
-            <div class="exp-ring exp-ring-2"></div>
-            <div class="exp-ring exp-ring-3"></div>
-            <div class="exp-particles"></div>
+
+        <!-- Progress bar -->
+        <div class="intro-bar-wrap">
+            <div class="intro-bar-label">
+                <span>Yükleniyor</span>
+                <span class="intro-pct" id="intro-pct">0%</span>
+            </div>
+            <div class="intro-bar-track">
+                <div class="intro-bar-fill" id="intro-fill"></div>
+            </div>
         </div>
+
     </div>
-    <button id="tnt-skip">ATLA</button>
+
+    <!-- Sağ alt logo watermark -->
+    <div class="intro-logo"><span class="g">Lambda</span> SMP Network</div>
+
 </div>
-<!-- /TNT GİRİŞ ANİMASYONU -->
+<!-- /GİRİŞ EKRANI -->
+
 
 <!-- BG -->
 <div class="bg-grid"></div>
@@ -65,12 +79,12 @@
 <!-- NAV -->
 <nav>
     <div class="nav-inner">
-        <!-- ✏️ NAV LOGO — İsim değiştirmek istersen buraya -->
+        <!-- ✏️ NAV LOGO -->
         <div class="nav-logo">
             <span class="g">Lambda</span><span> SMP Network</span>
         </div>
         <ul class="nav-links">
-            <!-- ✏️ NAV LİNKLERİ — Ekle / çıkar -->
+            <!-- ✏️ NAV LİNKLERİ -->
             <li><a href="#about">Sunucu</a></li>
             <li><a href="#gallery">Galeri</a></li>
             <li><a href="#versions">Sürümler</a></li>
@@ -86,11 +100,11 @@
 <!-- HERO -->
 <section class="hero">
     <div class="hero-content">
-        <!-- ✏️ HERO BADGE — "Sunucu Aktif" yazısı -->
+        <!-- ✏️ HERO BADGE -->
         <div class="hero-badge">
             <span class="pls"></span> Sunucu Aktif &mdash; 24/7
         </div>
-        <!-- ✏️ HERO BAŞLIK — Sunucu adı -->
+        <!-- ✏️ HERO BAŞLIK -->
         <h1 class="hero-title">
             <span class="lambda">Lambda</span><span class="smp"> SMP</span>
             <span class="net">N E T W O R K</span>
@@ -100,7 +114,7 @@
             Arkadaşlarınla birlikte efsanevi bir Minecraft deneyimi yaşa.<br>
             Hayatta kal, inşa et, ittifaklar kur — gerçek bir SMP dünyası seni bekliyor.
         </p>
-        <!-- ✏️ SUNUCU IP'Sİ — "play.lambdasmp.net" kısmını değiştir -->
+        <!-- ✏️ SUNUCU IP — "play.lambdasmp.net" kısmını değiştir -->
         <div class="ip-box" onclick="copyIP()">
             <div>
                 <div class="ip-lbl">Sunucu IP</div>
@@ -109,7 +123,7 @@
             <button class="ip-btn" id="cpyBtn">Kopyala</button>
         </div>
         <div class="hero-btns">
-            <!-- ✏️ HERO BUTONLARI — href ve metinleri değiştirebilirsin -->
+            <!-- ✏️ HERO BUTONLARI -->
             <a href="#about" class="btn-p">Keşfet</a>
             <a href="#versions" class="btn-s">Sürümler &amp; Launcherlar</a>
         </div>
@@ -149,7 +163,7 @@
             <p class="sec-desc">Lambda SMP, Minecraft'ın vanilla ruhunu koruyarak topluluğu ve rekabeti tek bir dünyada buluşturan bir Survival Multiplayer sunucusudur.</p>
         </div>
         <div class="info-grid">
-            <!-- ✏️ ÖZELLİK KARTLARI — info-icon, info-t (başlık), info-d (açıklama) -->
+            <!-- ✏️ ÖZELLİK KARTLARI -->
             <div class="info-card rv">
                 <span class="info-icon">⚔️</span>
                 <div class="info-t">Gerçek Survival</div>
@@ -195,7 +209,7 @@
         <div class="ss-wrap rv">
             <div class="ss-track" id="ssTrack">
 
-                <!-- ✏️ SLIDE 1 — Fotoğraf eklemek için: yorum satırını kaldır ve src="URL" yaz -->
+                <!-- ✏️ SLIDE 1 — Yorum satırını kaldır ve src="URL" yaz -->
                 <div class="slide s1">
                     <!-- <img src="foto1.jpg" alt="Lambda SMP - Görsel 1"> -->
                     <div class="slide-ph">
@@ -266,7 +280,7 @@
             <p class="sec-desc">Lambda SMP, geniş bir sürüm yelpazesini ve orijinal ile cracked launcherları tam olarak destekler.</p>
         </div>
 
-        <!-- ✏️ SÜRÜM ETİKETLERİ — ver-tag ekle/çıkar -->
+        <!-- ✏️ SÜRÜM ETİKETLERİ -->
         <div class="ver-grid rv">
             <div class="ver-tag"><span class="ver-dot"></span>Java 1.8</div>
             <div class="ver-tag"><span class="ver-dot"></span>Java 1.12.2</div>
@@ -279,7 +293,7 @@
         </div>
 
         <span class="sub-tag">Desteklenen Launcherlar</span>
-        <!-- ✏️ LAUNCHER KARTLARI — lnc-ico (emoji), lnc-name, lnc-type -->
+        <!-- ✏️ LAUNCHER KARTLARI -->
         <div class="lnc-grid rv">
             <div class="lnc-card">
                 <div class="lnc-ico">🎮</div>
@@ -348,8 +362,8 @@
         <div class="sec-head rv">
             <div class="sec-tag">▸ Ekip</div>
             <h2 class="sec-title">Lambda SMP <span>Yapımcıları</span></h2>
-            <!-- ✏️ AUTHORS AÇIKLAMASI — main.js içindeki AUTHORS dizisini düzenle -->
-            <p class="sec-desc">Bu sunucuyu hayata geçiren ekip. Kişi eklemek / çıkarmak için <strong>main.js</strong> dosyasındaki <code>AUTHORS</code> dizisini düzenle.</p>
+            <!-- ✏️ AUTHORS — main.js içindeki AUTHORS dizisini düzenle -->
+            <p class="sec-desc">Bu sunucuyu hayata geçiren ekip. Kişi eklemek / çıkarmak için <strong>main.js</strong> içindeki <code>AUTHORS</code> dizisini düzenle.</p>
         </div>
         <div class="authors-grid" id="authGrid"></div>
     </div>
