@@ -32,227 +32,188 @@ body {
 }
 
 /* ================================================================
-   ✏️  TNT INTRO ANIMATION
-   — #tnt-intro: Tam ekran overlay (animasyon bitince otomatik gizlenir)
-   — Animasyon süresi: ~3.2 saniye
-   — skip butonuyla atlanabilir
+   GİRİŞ EKRANI — #intro
+   ✏️  Arka plan fotoğrafı için index.html içindeki
+       #intro style="background-image: url('FOTO_URL')" satırını düzenle
 ================================================================ */
-#tnt-intro {
+#intro {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
     pointer-events: all;
-}
-#tnt-intro.hidden {
-    display: none;
-}
-#tnt-skip {
-    position: absolute;
-    bottom: 28px;
-    right: 28px;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: rgba(255,255,255,0.45);
-    font-family: 'Oxanium', sans-serif;
-    font-size: .72rem;
-    letter-spacing: 1.5px;
-    padding: 8px 18px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all .2s;
-}
-#tnt-skip:hover { color: #fff; border-color: rgba(255,255,255,.4); }
 
-/* TNT 3D Scene */
-.tnt-scene {
-    perspective: 800px;
-    width: 200px;
-    height: 200px;
-    position: relative;
+    /* Arka plan fotoğrafı — 16:9, PC + mobil uyumlu */
+    background-color: #000;
+    background-image: none;        /* ← JS tarafından set edilir, bak index.html */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
-.tnt-box {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform-style: preserve-3d;
-    transform: translateX(-50%) translateY(-50%) rotateX(20deg) rotateY(-30deg);
-    animation: tntFall 1.4s cubic-bezier(.4,0,.6,1) forwards,
-               tntSpin 1.4s linear forwards;
-}
-/* Six faces of the cube */
-.tnt-face {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    border: 3px solid #cc0000;
-    font-size: 0;
-    image-rendering: pixelated;
-}
-.tnt-face.front  { background: #cc0000; transform: translateZ(50px); }
-.tnt-face.back   { background: #aa0000; transform: rotateY(180deg) translateZ(50px); }
-.tnt-face.left   { background: #bb0000; transform: rotateY(-90deg) translateZ(50px); }
-.tnt-face.right  { background: #bb0000; transform: rotateY(90deg) translateZ(50px); }
-.tnt-face.top    { background: #888; transform: rotateX(90deg) translateZ(50px); }
-.tnt-face.bottom { background: #666; transform: rotateX(-90deg) translateZ(50px); }
 
-/* TNT text on faces */
-.tnt-face.front::after,
-.tnt-face.back::after,
-.tnt-face.left::after,
-.tnt-face.right::after {
-    content: 'TNT';
+/* Koyu katman — fotoğrafın üstünde okunabilirliği artırır */
+#intro::before {
+    content: '';
     position: absolute;
     inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.92) 0%,
+        rgba(0,0,0,0.45) 40%,
+        rgba(0,0,0,0.25) 100%
+    );
+}
+
+/* Sol alt — diyalog + bar */
+.intro-hud {
+    position: absolute;
+    bottom: clamp(24px, 5vw, 52px);
+    left:   clamp(20px, 5vw, 60px);
+    right:  clamp(20px, 5vw, 60px);   /* mobilde taşmasın */
+    max-width: 480px;
+    z-index: 2;
+}
+
+/* Diyalog kutusu */
+.intro-dialog {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: introFadeUp .6s .3s ease forwards;
+}
+.intro-dialog-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(0,255,65,.12);
+    border: 1px solid rgba(0,255,65,.35);
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+    box-shadow: 0 0 18px rgba(0,255,65,.15);
+}
+.intro-dialog-text {
+    flex: 1;
+}
+.intro-dialog-title {
     font-family: 'Oxanium', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: 3px;
-    text-shadow: 2px 2px 0 rgba(0,0,0,.5);
+    font-size: clamp(.7rem, 1.5vw, .78rem);
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
 }
-/* Checkerboard top */
-.tnt-face.top {
-    background-image:
-        repeating-conic-gradient(#888 0% 25%, #666 0% 50%);
-    background-size: 25px 25px;
+/* Typewriter metin */
+.intro-dialog-msg {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(.82rem, 2vw, .95rem);
+    color: rgba(255,255,255,.9);
+    line-height: 1.5;
+    min-height: 1.5em;
 }
+.intro-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--green);
+    vertical-align: text-bottom;
+    margin-left: 2px;
+    animation: blink .7s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-/* Fuse on top */
-.tnt-fuse {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 3px;
-    height: 0;
-    background: linear-gradient(to top, #888, #fff);
-    transform-origin: bottom center;
-    transform: translateX(-50%) translateY(-calc(50px)) rotateX(90deg);
-    animation: fuseGrow 1.2s .1s ease forwards;
-    z-index: 10;
-}
-.tnt-fuse::after {
-    content: '✦';
-    position: absolute;
-    top: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #ff0;
-    font-size: 1rem;
-    animation: fuseSpark 0.15s infinite alternate;
-}
-@keyframes fuseSpark { from { opacity: 1; transform: translateX(-50%) scale(1); } to { opacity: .6; transform: translateX(-50%) scale(1.4); } }
-@keyframes fuseGrow  { from { height: 0; } to { height: 50px; } }
-
-/* Fall from top animation */
-@keyframes tntFall {
-    0%   { top: -200%; opacity: 0; }
-    30%  { opacity: 1; }
-    85%  { top: 50%; }
-    92%  { top: 48%; }
-    100% { top: 50%; }
-}
-@keyframes tntSpin {
-    0%   { transform: translateX(-50%) translateY(-50%) rotateX(20deg) rotateY(0deg); }
-    100% { transform: translateX(-50%) translateY(-50%) rotateX(20deg) rotateY(-330deg); }
-}
-
-/* Explosion */
-.tnt-explosion {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
+/* Progress bar */
+.intro-bar-wrap {
     opacity: 0;
+    animation: introFadeUp .6s .5s ease forwards;
 }
-.tnt-explosion.boom {
-    animation: explodeOuter 0.6s ease forwards;
+.intro-bar-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
 }
-.exp-ring {
+.intro-bar-label span {
+    font-family: 'Oxanium', sans-serif;
+    font-size: .65rem;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+}
+.intro-bar-label .intro-pct {
+    color: var(--green);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: .75rem;
+}
+.intro-bar-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,.08);
+    border-radius: 99px;
+    overflow: hidden;
+    position: relative;
+}
+.intro-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--green-dim), var(--green));
+    border-radius: 99px;
+    transition: width .18s ease;
+    box-shadow: 0 0 10px rgba(0,255,65,.5);
+    position: relative;
+}
+/* Parlayan uç nokta */
+.intro-bar-fill::after {
+    content: '';
     position: absolute;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    left: 50%;
+    right: -1px;
     top: 50%;
-    opacity: 0;
-}
-.exp-ring-1 {
-    width: 0; height: 0;
-    background: radial-gradient(circle, #fff 0%, #ffcc00 30%, #ff4400 60%, transparent 80%);
-    animation: ring1 .55s .05s ease-out forwards;
-}
-.exp-ring-2 {
-    width: 0; height: 0;
-    background: radial-gradient(circle, transparent 20%, rgba(255,100,0,.5) 50%, transparent 70%);
-    animation: ring2 .7s .1s ease-out forwards;
-}
-.exp-ring-3 {
-    width: 0; height: 0;
-    background: radial-gradient(circle, transparent 30%, rgba(255,50,0,.2) 60%, transparent 80%);
-    animation: ring3 .9s .15s ease-out forwards;
-}
-@keyframes ring1 { 0%{width:0;height:0;opacity:1} 80%{opacity:.9} 100%{width:340px;height:340px;opacity:0} }
-@keyframes ring2 { 0%{width:0;height:0;opacity:.8} 100%{width:580px;height:580px;opacity:0} }
-@keyframes ring3 { 0%{width:0;height:0;opacity:.5} 100%{width:900px;height:900px;opacity:0} }
-
-/* Particles */
-.exp-particles {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 0;
-    height: 0;
-}
-.exp-particle {
-    position: absolute;
+    transform: translateY(-50%);
     width: 8px;
     height: 8px;
-    border-radius: 2px;
-    opacity: 0;
-}
-/* Particles are generated via JS */
-
-/* Flash overlay */
-.exp-flash {
-    position: fixed;
-    inset: 0;
+    border-radius: 50%;
     background: #fff;
+    box-shadow: 0 0 8px var(--green), 0 0 16px var(--green);
     opacity: 0;
-    pointer-events: none;
-    z-index: 10000;
-    animation: flash .4s .05s ease forwards;
+    transition: opacity .2s;
 }
-@keyframes flash { 0%{opacity:0} 15%{opacity:.9} 100%{opacity:0} }
+.intro-bar-fill.started::after { opacity: 1; }
 
-/* Screen shake */
-@keyframes shake {
-    0%  { transform: translate(0,0) rotate(0deg); }
-    15% { transform: translate(-8px,5px) rotate(-1deg); }
-    30% { transform: translate(7px,-4px) rotate(.8deg); }
-    45% { transform: translate(-5px,6px) rotate(-.5deg); }
-    60% { transform: translate(4px,-3px) rotate(.3deg); }
-    75% { transform: translate(-3px,2px) rotate(-.2deg); }
-    100%{ transform: translate(0,0) rotate(0deg); }
+/* Logo — sağ alt */
+.intro-logo {
+    position: absolute;
+    bottom: clamp(24px, 5vw, 52px);
+    right:  clamp(20px, 5vw, 60px);
+    font-family: 'Oxanium', sans-serif;
+    font-size: clamp(.9rem, 2vw, 1.1rem);
+    font-weight: 700;
+    color: rgba(255,255,255,.22);
+    letter-spacing: .5px;
+    z-index: 2;
+    opacity: 0;
+    animation: introFadeUp .6s .4s ease forwards;
 }
-body.shaking { animation: shake .5s ease; }
+.intro-logo .g { color: rgba(0,255,65,.5); }
 
-/* Outro: reveal the site */
+/* Fade out overlay */
 @keyframes introFadeOut {
     0%   { opacity: 1; }
     100% { opacity: 0; pointer-events: none; }
 }
-#tnt-intro.fade-out {
-    animation: introFadeOut .6s ease forwards;
+#intro.fade-out {
+    animation: introFadeOut .7s ease forwards;
+}
+#intro.hidden { display: none; }
+
+@keyframes introFadeUp {
+    from { opacity:0; transform: translateY(12px); }
+    to   { opacity:1; transform: translateY(0); }
 }
 
 /* ── BACKGROUND ── */
@@ -631,6 +592,7 @@ footer {
     .foot-bot { flex-direction:column; align-items:center; }
     .stats-grid { grid-template-columns:repeat(2,1fr); }
     .hero-title .net { letter-spacing:5px; }
+    .intro-logo { display:none; }  /* mobilde logo gizle, yer aç */
 }
 @media(max-width:500px) {
     .ip-box { flex-direction:column; gap:10px; padding:18px; }
